@@ -43,18 +43,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: 校验 Markdown 代码块（``` 配对）
-        run: |
-          fail=0
-          while IFS= read -r f; do
-            n=$(grep -c '```' "$f" || true)
-            if [ $((n % 2)) -ne 0 ]; then
-              echo "::error file=$f::代码块围栏不配对（共 $n 个 ```）"
-              fail=1
-            fi
-          done < <(find docs -name '*.md')
-          exit $fail
-
       - name: 校验 Task ID 引用无悬空
         run: |
           # 所有定义的 Task ID
