@@ -10,6 +10,7 @@
 5. [architecture/DEPENDENCY_GRAPH.md](architecture/DEPENDENCY_GRAPH.md) — 依赖图与分层。
 6. 模块 Spec：[specs/&lt;module-id&gt;/SPEC.md](specs/)。
 7. 任务与清单：[tasks/MASTER_TASKS.md](tasks/MASTER_TASKS.md)、[checklists/MASTER_CHECKLIST.md](checklists/MASTER_CHECKLIST.md)。
+8. [planning/TWO_PERSON_WORK_SPLIT.md](planning/TWO_PERSON_WORK_SPLIT.md) — 两人协作分工、接口所有权与阶段执行安排。
 
 ## 目录结构
 
@@ -24,7 +25,8 @@ docs/
 ├── checklists/                MASTER_CHECKLIST + 每模块 CHECKLIST.md
 ├── adr/                       ADR-0001 … ADR-0012 + README
 ├── planning/                  ROADMAP / MILESTONES / TRACEABILITY_MATRIX /
-│                              RISK_REGISTER / OPEN_QUESTIONS / GLOSSARY
+│                              RISK_REGISTER / OPEN_QUESTIONS / GLOSSARY /
+│                              TWO_PERSON_WORK_SPLIT
 └── templates/                 SPEC / TASK / CHECKLIST / ADR 模板
 ```
 
