@@ -1,0 +1,165 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# 取消同一分支上仍在运行的旧任务，节省额度
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # 阶段一：检测仓库当前状态。规划期没有 go.mod，Go 相关 job 应自动跳过。
+  # ---------------------------------------------------------------------------
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      has_go: ${{ steps.check.outputs.has_go }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        run: |
+          if [ -f go.mod ]; then
+            echo "has_go=true" >> "$GITHUB_OUTPUT"
+            echo "检测到 go.mod，启用 Go 流水线"
+          else
+            echo "has_go=false" >> "$GITHUB_OUTPUT"
+            echo "未检测到 go.mod，仅运行文档检查（规划阶段）"
+          fi
+
+  # ---------------------------------------------------------------------------
+  # 文档校验：规划阶段始终运行。校验 Markdown 链接、Mermaid 代码块配对、
+  # 以及 Task/Requirement ID 引用一致性（呼应 AGENTS.md 的文档同步规则）。
+  # ---------------------------------------------------------------------------
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 校验 Markdown 代码块（``` 配对）
+        run: |
+          fail=0
+          while IFS= read -r f; do
+            n=$(grep -c '```' "$f" || true)
+            if [ $((n % 2)) -ne 0 ]; then
+              echo "::error file=$f::代码块围栏不配对（共 $n 个 ```）"
+              fail=1
+            fi
+          done < <(find docs -name '*.md')
+          exit $fail
+
+      - name: 校验 Task ID 引用无悬空
+        run: |
+          # 所有定义的 Task ID
+          grep -rhoE 'FC-[A-Z]+-[0-9]{3}' docs/tasks/*/TASKS.md | sort -u > /tmp/defined.txt
+          # 所有被引用的 Task ID
+          grep -rhoE 'FC-[A-Z]+-[0-9]{3}' docs/tasks | sort -u > /tmp/refs.txt
+          missing=$(comm -23 /tmp/refs.txt /tmp/defined.txt)
+          if [ -n "$missing" ]; then
+            echo "::error::以下 Task ID 被引用但未定义:"
+            echo "$missing"
+            exit 1
+          fi
+          echo "Task ID 引用一致，共 $(wc -l < /tmp/defined.txt) 个已定义"
+
+      - name: 校验必备规划文档存在
+        run: |
+          required="docs/specs/00-master/SPEC.md docs/tasks/MASTER_TASKS.md \
+            docs/checklists/MASTER_CHECKLIST.md docs/planning/TRACEABILITY_MATRIX.md \
+            docs/planning/RISK_REGISTER.md docs/architecture/MODULE_MAP.md AGENTS.md"
+          fail=0
+          for f in $required; do
+            [ -f "$f" ] || { echo "::error::缺失必备文档 $f"; fail=1; }
+          done
+          exit $fail
+
+      - name: Markdown 链接检查
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.github/markdown-link-check.json'
+
+  # ---------------------------------------------------------------------------
+  # 以下 job 仅在 go.mod 存在后启用（has_go == true）。规划阶段自动跳过。
+  # ---------------------------------------------------------------------------
+  build:
+    needs: detect
+    if: needs.detect.outputs.has_go == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - run: go build ./...
+
+  test:
+    needs: detect
+    if: needs.detect.outputs.has_go == 'true'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      # NFR-TEST-001：核心模块必须通过 -race
+      - name: go test -race
+        run: go test -race -coverprofile=coverage.out -covermode=atomic ./...
+      - name: 上传覆盖率
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage.out
+
+  lint:
+    needs: detect
+    if: needs.detect.outputs.has_go == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: go vet（NFR-MAINT-001 依赖方向/静态检查）
+        run: go vet ./...
+      - name: gofmt 检查
+        run: |
+          unformatted=$(gofmt -l .)
+          if [ -n "$unformatted" ]; then
+            echo "::error::以下文件未格式化:"; echo "$unformatted"; exit 1
+          fi
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+
+  # 安全相关：依赖漏洞扫描（核心逻辑落地后启用）
+  govulncheck:
+    needs: detect
+    if: needs.detect.outputs.has_go == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: govulncheck
+        run: |
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          govulncheck ./...

@@ -1,0 +1,105 @@
+name: Release
+
+# 推送 v* 标签时构建跨平台二进制并发布 GitHub Release。
+# 规划阶段（无 go.mod）会安全跳过构建，仅生成提示性 Release 说明。
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      has_go: ${{ steps.check.outputs.has_go }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        run: |
+          if [ -f go.mod ]; then
+            echo "has_go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_go=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    needs: detect
+    if: needs.detect.outputs.has_go == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - { goos: linux,  goarch: amd64 }
+          - { goos: linux,  goarch: arm64 }
+          - { goos: darwin, goarch: amd64 }
+          - { goos: darwin, goarch: arm64 }
+          - { goos: windows, goarch: amd64 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: 构建二进制
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: 0
+        run: |
+          version="${GITHUB_REF_NAME}"
+          ext=""
+          [ "$GOOS" = "windows" ] && ext=".exe"
+          out="forge-${GOOS}-${GOARCH}${ext}"
+          # 主入口约定为 ./cmd/forge（见 AGENTS.md 目录约定）；
+          # 若尚未建立则回退到模块根。
+          target="./cmd/forge"
+          [ -d "$target" ] || target="."
+          go build -trimpath \
+            -ldflags "-s -w -X main.version=${version}" \
+            -o "dist/${out}" "$target"
+          (cd dist && sha256sum "${out}" > "${out}.sha256")
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: forge-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: dist/*
+
+  release:
+    needs: [detect, build]
+    # build 被跳过时（规划阶段）此 job 也不应失败，故允许 build 跳过
+    if: always() && needs.detect.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 下载产物
+        if: needs.detect.outputs.has_go == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: 创建 Release（含二进制）
+        if: needs.detect.outputs.has_go == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: dist/*
+
+      - name: 创建 Release（规划阶段，无二进制）
+        if: needs.detect.outputs.has_go == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          body: |
+            该标签发布于架构规划阶段，尚无可执行二进制。
+            本仓库当前只包含设计与规划文档，详见 `docs/`。
