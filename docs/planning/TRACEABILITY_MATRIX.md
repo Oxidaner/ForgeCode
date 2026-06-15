@@ -18,7 +18,7 @@
 | FR-PROVIDER-004 | model-provider | §13 | FC-PROV-005 | Failure | model-provider/Impl | Planned |
 | FR-PROVIDER-005 | model-provider | §6 | FC-PROV-007 | Unit | model-provider/Impl | Planned |
 | FR-PROVIDER-006 | model-provider | §6 | FC-PROV-001/006 | Contract | model-provider/Impl | Planned |
-| FR-TOOL-001 | tool-runtime | §6 | FC-TOOL-001 | Unit/Contract | tool-runtime/Design | Planned |
+| FR-TOOL-001 | tool-runtime | §6 | FC-TOOL-001 | Unit/Contract | tool-runtime/Design | Implemented |
 | FR-TOOL-002 | tool-runtime | §8/§9 | FC-TOOL-002 | 管线 Integration/Security | tool-runtime/Impl | Planned |
 | FR-TOOL-003 | tool-runtime | §9 | FC-TOOL-003 | Failure | tool-runtime/Impl | Planned |
 | FR-TOOL-004 | tool-runtime, mcp-client | §9 | FC-TOOL-006, FC-MCP-004 | Contract | tool-runtime/Test | Planned |
@@ -28,7 +28,7 @@
 | FR-TOOL-104 | builtin-tools | §Bash | FC-BT-004 | Unit/Failure | builtin-tools/Impl | Planned |
 | FR-TOOL-105 | builtin-tools | §Glob | FC-BT-005 | Unit | builtin-tools/Impl | Planned |
 | FR-TOOL-106 | builtin-tools | §Grep | FC-BT-005 | Unit | builtin-tools/Impl | Planned |
-| FR-PERM-001 | permission-engine | §6 | FC-PERM-001 | Unit/Contract | permission-engine/Design | Planned |
+| FR-PERM-001 | permission-engine | §6 | FC-PERM-001 | Unit/Contract | permission-engine/Design | Implemented |
 | FR-PERM-002 | permission-engine | §3(L1) | FC-PERM-002 | Security | permission-engine/Impl | Planned |
 | FR-PERM-003 | permission-engine | §3(L2)/§14 | FC-PERM-003 | Security 语料库 | permission-engine/Impl | Planned |
 | FR-PERM-004 | permission-engine | §3(L3) | FC-PERM-004 | Unit | permission-engine/Impl | Planned |
@@ -81,7 +81,7 @@
 | FR-WORKTREE-001 | git-worktree | §8/§9 | FC-WT-001/002 | Integration | git-worktree/Impl | Planned |
 | FR-WORKTREE-002 | git-worktree | §9 | FC-WT-003 | Failure | git-worktree/Impl | Planned |
 | FR-WORKTREE-003 | git-worktree | §9 | FC-WT-003/004 | Recovery | git-worktree/Impl | Planned |
-| FR-TELEMETRY-001 | telemetry | §6/§14 | FC-TEL-001 | Security | telemetry/Impl | Planned |
+| FR-TELEMETRY-001 | telemetry | §6/§14 | FC-TEL-001 | Security | telemetry/Impl | Implemented |
 | FR-TELEMETRY-002 | telemetry | §6 | FC-TEL-002 | Unit | telemetry/Impl | Planned |
 | FR-TELEMETRY-003 | telemetry, event-system | §9 | FC-TEL-003 | Integration | telemetry/Impl | Planned |
 | FR-TELEMETRY-004 | telemetry | §6 | FC-TEL-004 | Unit | telemetry/Impl | Planned |

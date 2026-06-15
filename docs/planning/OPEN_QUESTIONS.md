@@ -4,7 +4,7 @@
 
 | ID | 问题 | 当前假设 | 影响模块 | 状态 | 决策方式 |
 | --- | --- | --- | --- | --- | --- |
-| Q1 | 目标 Go 版本 | 假设 Go 1.22+（泛型、`log/slog`、`errors.Join`） | 全体 | Open | 首个 Spike（FC-RT-000）确认 |
+| Q1 | 目标 Go 版本 | `go.mod` 使用 Go 1.22；当前本地验证工具链为 Go 1.26.4 | 全体 | Resolved | 首批实现已初始化 Go module |
 | Q2 | SQLite 驱动选型 | 候选 `modernc.org/sqlite`（纯 Go，免 CGO）；需确认 FTS5 支持 | session-store, memory-system | Open | Spike 验证 FTS5 |
 | Q3 | Git 操作方式 | 候选 `git` CLI 包装（Worktree 兼容性好）vs `go-git`（Worktree 支持有限） | git-worktree | Open | V0.3 前 Spike |
 | Q4 | Token 估算精度 | MVP 用启发式（字符/词近似 + 模型系数），非精确 tokenizer | context-manager | Open | 误差超 15% 时引入 tokenizer |

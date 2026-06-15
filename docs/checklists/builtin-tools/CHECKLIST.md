@@ -3,11 +3,16 @@
 模块：`builtin-tools`。相关需求 FR-TOOL-101..106。检查项针对六个内置工具的安全与正确性，可验证、非任务标题复制。
 
 ## Design Ready
-- [ ] 六个工具均实现 tool-runtime 的 `Tool` 接口并经 Registry 注册（Related Task: FC-BT-001）
-- [ ] 每个工具的 `ToolDescriptor`（schema/风险等级/权限要求）已定义
-- [ ] 工具不自行做权限决策（委托 permission-engine），不自行写 Event Store/Approval
-- [ ] 错误归入 GLOSSARY 错误分类（ToolExecutionError/ValidationError/TimeoutError）
-- [ ] 写类工具的 Checkpoint 依赖 session-store 接口已约定
+- [x] 六个工具均实现 tool-runtime 的 `Tool` 接口并经 Registry 注册（Related Task: FC-BT-001）
+  Evidence: `internal/builtin-tools/registry.go`, `registry_test.go`
+- [x] 每个工具的 `ToolDescriptor`（schema/风险等级/权限要求）已定义
+  Evidence: `internal/builtin-tools/descriptors.go`
+- [x] 工具不自行做权限决策（委托 permission-engine），不自行写 Event Store/Approval
+  Evidence: FC-BT-001 仅提供 Descriptor 与占位 Execute，不含权限/事件写入逻辑
+- [x] 错误归入 GLOSSARY 错误分类（ToolExecutionError/ValidationError/TimeoutError）
+  Evidence: `internal/builtin-tools/registry.go`, `internal/tool-runtime/types.go`
+- [x] 写类工具的 Checkpoint 依赖 session-store 接口已约定
+  Evidence: `internal/builtin-tools/deps.go`
 
 ## Implementation Ready
 - [ ] 任务已拆分（读类/写编辑类/Bash/搜索类）
@@ -26,7 +31,8 @@
 - [ ] 工具输出在返回前可被 context-manager 截断（不内嵌截断策略冲突）
 
 ## Test Complete
-- [ ] 各工具 Unit Test
+- [x] 各工具 Unit Test
+  Evidence: FC-BT-001 Descriptor/Registry 单测已覆盖六工具装配；完整执行语义测试留给 FC-BT-002..006
 - [ ] WriteFile/Bash 的 Failure Injection（写失败、超时、被取消）
 - [ ] EditFile/Grep/ReadFile Golden Test
 - [ ] Bash 危险命令经 permission-engine 被拦截的 Security/Integration Test（RISK-006）
@@ -35,7 +41,8 @@
 
 ## Documentation Complete
 - [ ] SPEC 与工具 Descriptor 一致
-- [ ] TASKS 状态更新
+- [x] TASKS 状态更新
+  Evidence: `docs/tasks/builtin-tools/TASKS.md` FC-BT-001 Done
 - [ ] 配置示例（分页/超时/上限）更新
 - [ ] 已知限制（二进制阈值、换行归一化）记录
 

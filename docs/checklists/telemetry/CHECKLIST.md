@@ -3,8 +3,10 @@
 模块：`telemetry`。相关需求 FR-TELEMETRY-001..004。
 
 ## Design Ready
-- [ ] Logger/Metrics/AuditSink/UsageMeter/Redactor 接口已定义（FC-TEL-001）
-- [ ] 脱敏规则与默认敏感字段已定义（NFR-SEC-002）
+- [x] Logger/Metrics/AuditSink/UsageMeter/Redactor 接口已定义（FC-TEL-001）
+  Evidence: `internal/telemetry/log.go`, `metrics.go`, `usage.go`, `redact.go`
+- [x] 脱敏规则与默认敏感字段已定义（NFR-SEC-002）
+  Evidence: `internal/telemetry/redact.go`
 - [ ] AuditSink 依赖反转设计（实现 Subscriber，不 import Bus）
 - [ ] UsageRecord 模型与聚合作用域已定义
 - [ ] 无业务依赖（DEPENDENCY_GRAPH 一致）
@@ -16,22 +18,26 @@
 - [ ] best-effort 失败策略已定义
 
 ## Implementation Complete
-- [ ] 密钥/Token/环境变量不入普通日志（FR-TELEMETRY-001, NFR-SEC-002）
+- [x] 密钥/Token/环境变量不入普通日志（FR-TELEMETRY-001, NFR-SEC-002）
+  Evidence: `internal/telemetry/redact_test.go`
 - [ ] 关键指标可记录查询（FR-TELEMETRY-002）
 - [ ] 审计事件被 AuditSink 完整落地（FR-TELEMETRY-003）
 - [ ] UsageRecord 可按作用域聚合（FR-TELEMETRY-004）
 - [ ] 日志/指标失败不阻断主流程
 
 ## Test Complete
-- [ ] 脱敏 Security Test（含密钥输入）
-- [ ] Usage 聚合 Unit Test
+- [x] 脱敏 Security Test（含密钥输入）
+  Evidence: `go test ./...`
+- [x] Usage 聚合 Unit Test
+  Evidence: `internal/telemetry/usage_test.go`
 - [ ] AuditSink Integration
 - [ ] 依赖检查：telemetry 不 import 业务模块
 - [ ] `go test -race` 通过
 
 ## Documentation Complete
 - [ ] SPEC 与实现一致
-- [ ] TASKS 状态更新
+- [x] TASKS 状态更新
+  Evidence: `docs/tasks/telemetry/TASKS.md` FC-TEL-001 Done
 - [ ] 脱敏字段配置示例
 - [ ] 已知限制（脱敏误杀）记录
 

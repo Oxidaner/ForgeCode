@@ -36,6 +36,15 @@
 - **FC-RT-001**（状态机）→ **FC-RT-002**（Coordinator）。
 - **FC-TEL-001**（Logger/脱敏）。
 
+## 当前已完成任务
+
+- **FC-TEL-001**：Logger、Redactor、MemoryMetrics、MemoryUsageMeter 与脱敏安全测试。
+- **FC-TOOL-001**：Tool/Descriptor/Registry/ToolCall/ToolResult 契约与注册冲突测试。
+- **FC-PERM-001**：Decider/Decision/Effect/RiskLevel/RuleHit/Layer 模型与决策优先级测试。
+- **FC-BT-001**：六个内置工具 Descriptor、`RegisterBuiltins` 与装配测试。
+
+验证：`go build ./...`、`go test ./...`、`go vet ./...` 通过；`go test -race ./...` 因当前 Windows 环境缺少 `gcc` 未执行。
+
 ## MVP 关键路径（M1–M5）
 
 ```text

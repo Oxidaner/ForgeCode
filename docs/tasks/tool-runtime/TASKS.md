@@ -3,16 +3,17 @@
 模块：`tool-runtime`。Task 前缀 `FC-TOOL`。相关需求 FR-TOOL-001..004。ADR-0004/0005。RISK-005。
 
 ## FC-TOOL-001 — Tool 接口、Descriptor 与 Registry
-| Type | Architecture | Priority | P0 | Milestone | M1 | Status | Ready | Size | M |
+| Type | Architecture | Priority | P0 | Milestone | M1 | Status | Done | Size | M |
 | Dependencies | - | Related Requirements | FR-TOOL-001 | Spec | §6 |
 
 **Description**：定义 `Tool`、`ToolDescriptor`、`Registry`，含 Namespace 与命名冲突处理。
 **Files**：`internal/tool-runtime/tool.go`, `registry.go`。
 **Tests Required**：注册/发现/冲突 Unit。
 **Acceptance Criteria**：
-- [ ] 命名冲突返回 ConflictError
-- [ ] Descriptor 含来源与 schema
+- [x] 命名冲突返回 ConflictError
+- [x] Descriptor 含来源与 schema
 **Definition of Done**：接口评审 + 测试通过。
+**Evidence**：实现 `internal/tool-runtime` 的 `Tool`、`ToolDescriptor`、`Registry`、`ToolCall`、`ToolResult` 与错误分类；注册/发现/冲突/非法 schema 单测通过。`go build ./...`、`go test ./...`、`go vet ./...` 通过；race 因缺 `gcc` 未执行。
 
 ## FC-TOOL-002 — 统一调用管线 Invoker
 | Type | Architecture | Priority | P0 | Milestone | M2 | Status | Backlog | Size | L |

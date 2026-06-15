@@ -17,9 +17,19 @@ ForgeCode is designed to be:
 
 ## Current Stage
 
-ForgeCode is currently in the architecture and planning phase.
+ForgeCode has moved from architecture planning into the first Ready P0 implementation tasks.
 
-The active master plan is maintained in [docs/master-plan.md](docs/master-plan.md). This phase is limited to Markdown, YAML, JSON, and other planning documents. Production code and dependency installation are intentionally out of scope until the architecture, module specs, task breakdowns, checklists, ADRs, traceability matrix, roadmap, and risk register are ready.
+The active master plan is maintained in [docs/master-plan.md](docs/master-plan.md). The initial code now focuses on the B-line execution plane: telemetry, tool runtime contracts, permission decision models, and built-in tool descriptors.
+
+## Development Commands
+
+```text
+go build ./...
+go test ./...
+go vet ./...
+```
+
+`go test -race ./...` is planned for race verification. On Windows it requires CGO and a C compiler such as `gcc`.
 
 ## Planned Capability Areas
 
@@ -52,4 +62,4 @@ The master plan calls for the repository to grow a planning document set that in
 
 ## Status
 
-No production runtime code has been implemented yet. The next step is to turn the master plan into the first set of architecture and planning documents.
+Initial Go module and B-line foundation packages exist under `internal/`. The runtime loop, provider adapters, session store, and full tool execution pipeline are still future tasks.

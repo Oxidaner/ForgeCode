@@ -12,7 +12,7 @@
 | Type | Architecture |
 | Priority | P0 |
 | Milestone | M1 |
-| Status | Ready |
+| Status | Done |
 | Size | M |
 | Dependencies | - |
 | Related Requirements | FR-TOOL-001, FR-TOOL-004 |
@@ -29,13 +29,13 @@
 **Security Considerations**：确保 Bash Descriptor 默认 High 风险，保证进入审批路径；不在装配层绕过管线。
 
 **Acceptance Criteria**：
-- [ ] 六个工具 Descriptor 定义完整且通过 schema 校验
-- [ ] `RegisterBuiltins` 成功注册六工具且名称唯一
-- [ ] Bash 默认风险标注为 High
+- [x] 六个工具 Descriptor 定义完整且通过 schema 校验
+- [x] `RegisterBuiltins` 成功注册六工具且名称唯一
+- [x] Bash 默认风险标注为 High
 
 **Definition of Done**：代码 + Contract/Unit 测试 + Spec §6 对齐 + Checklist 勾选 + Evidence。
 
-**Evidence**：（完成后填写）
+**Evidence**：实现 `internal/builtin-tools` 的 `Deps`、六个内置工具 Descriptor、`RegisterBuiltins` 与占位 `Execute`；注册数量、名称唯一、schema 有效、Bash High 风险、重复注册冲突单测通过。`go build ./...`、`go test ./...`、`go vet ./...` 通过；race 因缺 `gcc` 未执行。
 
 ---
 

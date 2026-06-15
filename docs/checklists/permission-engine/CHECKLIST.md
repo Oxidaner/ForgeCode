@@ -3,12 +3,16 @@
 模块：`permission-engine`。相关需求 FR-PERM-001..008。安全关键模块（风险等级 Critical）。
 
 ## Design Ready
-- [ ] `Decider`/`Decision`/`Effect`/`RiskLevel` 已定义（与 GLOSSARY 一致，FC-PERM-001）
+- [x] `Decider`/`Decision`/`Effect`/`RiskLevel` 已定义（与 GLOSSARY 一致，FC-PERM-001）
+  Evidence: `internal/permission-engine/types.go`
 - [ ] 五层职责边界与短路顺序已定义
-- [ ] 决策与执行分离明确（ADR-0005，不含执行能力）
-- [ ] 决策合并优先级规则已定义（Deny 优先、最严格生效）
+- [x] 决策与执行分离明确（ADR-0005，不含执行能力）
+  Evidence: `internal/permission-engine/decision_test.go`
+- [x] 决策合并优先级规则已定义（Deny 优先、最严格生效）
+  Evidence: `internal/permission-engine/decision.go`
 - [ ] Approval 契约字段已定义，存储归 session-store
-- [ ] 错误模型映射 GLOSSARY（ValidationError/PermissionDenied/ApprovalRequired）
+- [x] 错误模型映射 GLOSSARY（ValidationError/PermissionDenied/ApprovalRequired）
+  Evidence: `internal/tool-runtime/types.go`
 
 ## Implementation Ready
 - [ ] 任务已拆分（L1–L5 + Bash 分析 + 冲突测试）
@@ -29,13 +33,15 @@
 - [ ] 各层规则 Unit Test
 - [ ] 路径穿越/symlink/命令注入/提权 Security 语料库通过
 - [ ] Bash 分析 Golden Test
-- [ ] 决策合并优先级 Unit Test
+- [x] 决策合并优先级 Unit Test
+  Evidence: `go test ./...`
 - [ ] 与 tool-runtime Contract Test
 - [ ] `go test -race` 通过
 
 ## Documentation Complete
 - [ ] SPEC 五层与实现一致
-- [ ] TASKS 状态更新
+- [x] TASKS 状态更新
+  Evidence: `docs/tasks/permission-engine/TASKS.md` FC-PERM-001 Done
 - [ ] ADR-0005 与实现一致
 - [ ] 默认敏感目录/策略配置示例
 

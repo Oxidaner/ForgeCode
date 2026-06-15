@@ -3,16 +3,17 @@
 模块：`permission-engine`。Task 前缀 `FC-PERM`。相关需求 FR-PERM-001..008。ADR-0005。RISK-006/007/008。
 
 ## FC-PERM-001 — Decider 接口与决策模型
-| Type | Architecture | Priority | P0 | Milestone | M2 | Status | Ready | Size | M |
+| Type | Architecture | Priority | P0 | Milestone | M2 | Status | Done | Size | M |
 | Dependencies | FC-TOOL-001 | Related Requirements | FR-PERM-001, FR-PERM-008 | Spec | §6 |
 
 **Description**：定义 `Decider`、`Decision`、`Effect`、`RiskLevel`、`RuleHit`、`Layer`、决策合并优先级。
 **Security Considerations**：纯决策，不执行（ADR-0005）。
 **Tests Required**：合并优先级 Unit。
 **Acceptance Criteria**：
-- [ ] Deny>AskAlways>AskOnce>Allow 生效
-- [ ] 接口不含执行能力
+- [x] Deny>AskAlways>AskOnce>Allow 生效
+- [x] 接口不含执行能力
 **Definition of Done**：接口评审通过。
+**Evidence**：实现 `internal/permission-engine` 的 `Decider`、`Decision`、`Effect`、`RiskLevel`、`RuleHit`、`Layer`、`PolicySource`、`BashAnalysis` 与决策合并测试。`go build ./...`、`go test ./...`、`go vet ./...` 通过；race 因缺 `gcc` 未执行。
 
 ## FC-PERM-002 — L1 Schema 与输入校验
 | Type | Implementation | Priority | P0 | Milestone | M2 | Status | Backlog | Size | M |

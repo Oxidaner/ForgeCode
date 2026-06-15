@@ -6,7 +6,7 @@ ForgeCode 仓库的长期有效规则。本文件只放稳定规则，不复制 
 ForgeCode：用 Go 自主实现的、模型无关的 Coding Agent Runtime 控制平面。**不是封装 Agent SDK**。详见 `docs/specs/00-master/SPEC.md`。
 
 ## 语言与版本
-- 主语言：Go（目标版本见 `docs/planning/OPEN_QUESTIONS.md` Q1，待 Spike 确认；规划假设 Go 1.22+）。
+- 主语言：Go（`go.mod` 使用 Go 1.22；当前本地验证工具链为 Go 1.26.4）。
 - 文档：简体中文；代码标识符、ID、状态枚举、技术术语用英文。
 
 ## 目录约定
@@ -29,12 +29,12 @@ ForgeCode：用 Go 自主实现的、模型无关的 Coding Agent Runtime 控制
 - 敏感数据（密钥、Token、完整环境变量）不得写入普通日志（telemetry 强制脱敏）。
 - 高风险操作未经审批不得自动执行。
 
-## 命令（待建立）
-当前为规划阶段，尚无构建/测试代码。以下命令在代码骨架建立后填入，**现在不要虚构**：
-- 构建：待建立。
-- 测试：计划 `go test ./...`（含 `-race`），待项目初始化后确认。
-- 格式化：计划 `gofmt` / `goimports`，待确认。
-- 静态检查：计划 `go vet` + linter（如 `golangci-lint`），待确认。
+## 命令
+- 构建：`go build ./...`
+- 测试：`go test ./...`
+- Race 测试：`go test -race ./...`（Windows 需可用 C 编译器与 CGO；缺 `gcc` 时会失败）
+- 格式化：`gofmt -w <go-files>`
+- 静态检查：`go vet ./...`
 
 ## ID 规则
 - Module ID：见 `docs/architecture/MODULE_MAP.md`。
@@ -49,5 +49,6 @@ ForgeCode：用 Go 自主实现的、模型无关的 Coding Agent Runtime 控制
 - 状态机/错误分类以 `docs/planning/GLOSSARY.md` 为准。
 
 ## 当前阶段约束
-- 规划阶段仅修改 Markdown/YAML/JSON 设计文档。
-- 不实现生产代码、不安装依赖、不创建大量空骨架文件，直到架构文档就绪并选定首个 Ready 的 P0 Task。
+- 已进入首批 Ready P0 Task 的实现阶段。
+- 实现应严格围绕已选 Task，避免创建大量无内容骨架或越过 Spec 范围。
+- 新增生产代码时同步更新对应 `TASKS.md`、`CHECKLIST.md` 与 Evidence。

@@ -3,7 +3,7 @@
 模块：`telemetry`。Task 前缀 `FC-TEL`。相关需求 FR-TELEMETRY-001..004。
 
 ## FC-TEL-001 — Logger 与脱敏 Redactor
-| Type | Architecture | Priority | P0 | Milestone | M1 | Status | Ready | Size | M |
+| Type | Architecture | Priority | P0 | Milestone | M1 | Status | Done | Size | M |
 | Dependencies | - | Related Requirements | FR-TELEMETRY-001, NFR-SEC-002 | Spec | §6 |
 
 **Description**：结构化 Logger + Redactor，脱敏密钥/Token/环境变量，结构化字段与自由文本均生效。
@@ -11,9 +11,10 @@
 **Security Considerations**：NFR-SEC-002。
 **Tests Required**：Security Test（含密钥输入不泄露）。
 **Acceptance Criteria**：
-- [ ] 脱敏字段不出现明文
-- [ ] 自由文本中的密钥模式被掩码
+- [x] 脱敏字段不出现明文
+- [x] 自由文本中的密钥模式被掩码
 **Definition of Done**：安全测试通过。
+**Evidence**：实现 `internal/telemetry` 的 `Logger`、`Redactor`、`MemoryMetrics`、`MemoryUsageMeter`；`go build ./...`、`go test ./...`、`go vet ./...` 通过。`go test -race ./...` 因本机 Windows 环境缺 `gcc` 无法执行。
 
 ## FC-TEL-002 — Metrics 与可选 Trace
 | Type | Implementation | Priority | P1 | Milestone | M1 | Status | Backlog | Size | M |

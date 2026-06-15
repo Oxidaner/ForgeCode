@@ -3,11 +3,15 @@
 模块：`tool-runtime`。相关需求 FR-TOOL-001..004。
 
 ## Design Ready
-- [ ] `Tool`/`ToolDescriptor`/`Registry`/`Invoker` 接口已定义（FC-TOOL-001）
+- [x] `Tool`/`ToolDescriptor`/`Registry`/`Invoker` 接口已定义（FC-TOOL-001）
+  Evidence: `internal/tool-runtime/tool.go`, `types.go`, `registry.go`
 - [ ] 统一管线阶段顺序已定义且不可跳过（ADR-0004/0005）
-- [ ] ToolCall/ToolResult 契约已定义，存储归 session-store
-- [ ] 错误分类映射 GLOSSARY
-- [ ] Namespace 与命名冲突策略已定义
+- [x] ToolCall/ToolResult 契约已定义，存储归 session-store
+  Evidence: `internal/tool-runtime/types.go`
+- [x] 错误分类映射 GLOSSARY
+  Evidence: `internal/tool-runtime/types.go`
+- [x] Namespace 与命名冲突策略已定义
+  Evidence: `internal/tool-runtime/registry_test.go`
 - [ ] 依赖方向无环
 
 ## Implementation Ready
@@ -18,7 +22,8 @@
 
 ## Implementation Complete
 - [ ] 任何 Invoke 经 Validation→Permission→Hook→Execute→Audit（FR-TOOL-002）
-- [ ] 命名冲突返回 ConflictError
+- [x] 命名冲突返回 ConflictError
+  Evidence: `internal/tool-runtime/registry_test.go`
 - [ ] 输出硬截断并标注 Truncated（FR-TOOL-003, NFR-LIMIT-001）
 - [ ] 超时/取消正确终止并归类
 - [ ] ApprovalRequired 上抛、批准后续行（FC-TOOL-004）
@@ -33,7 +38,8 @@
 
 ## Documentation Complete
 - [ ] SPEC 接口与实现一致
-- [ ] TASKS 状态更新
+- [x] TASKS 状态更新
+  Evidence: `docs/tasks/tool-runtime/TASKS.md` FC-TOOL-001 Done
 - [ ] 配置示例更新
 - [ ] 截断/超时已知限制记录
 
