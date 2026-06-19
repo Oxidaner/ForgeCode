@@ -42,8 +42,22 @@
 - **FC-TOOL-001**：Tool/Descriptor/Registry/ToolCall/ToolResult 契约与注册冲突测试。
 - **FC-PERM-001**：Decider/Decision/Effect/RiskLevel/RuleHit/Layer 模型与决策优先级测试。
 - **FC-BT-001**：六个内置工具 Descriptor、`RegisterBuiltins` 与装配测试。
+- **FC-BT-002**：ReadFile 分页读取、二进制拒绝、超大文件保护。
+- **FC-BT-004**：Bash 本地执行、超时、头尾截断、退出码错误分类。
+- **FC-BT-005**：Glob / Grep 模式匹配、正则搜索、去重与结果上限。
+- **FC-PERM-002**：L1 Schema 与输入校验。
+- **FC-PERM-003**：L2 Workspace / 敏感路径 / symlink 资源边界。
+- **FC-PERM-004**：L3 风险等级与可配置策略映射。
+- **FC-PERM-005**：Bash 结构化分析与危险模式识别。
+- **FC-TOOL-002**：统一调用管线 Invoker，强制 Validation→Permission→Hook→Execute→Audit。
+- **FC-TOOL-003**：工具输出硬截断、超时与取消错误分类。
+- **FC-BT-003**：WriteFile / EditFile 写前 Checkpoint、原子写、唯一匹配与 Diff。
+- **FC-BT-006**：六工具 Unit / Golden / Failure / Contract 测试矩阵。
+- **FC-BT-007**：内置工具经统一管线与写前 Checkpoint 的安全一致性验证。
+- **FC-PERM-007**：审批请求契约与敏感输入脱敏（事件发布待 event-system）。
+- **FC-PERM-008**：多来源决策冲突最严格优先测试。
 
-验证：`go build ./...`、`go test ./...`、`go vet ./...` 通过；`go test -race ./...` 因当前 Windows 环境缺少 `gcc` 未执行。
+验证：`go build ./...`、`go test ./...`、`go vet ./...`、`go test -race ./...` 通过。
 
 ## MVP 关键路径（M1–M5）
 

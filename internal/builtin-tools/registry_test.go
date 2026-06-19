@@ -1,7 +1,9 @@
 package builtin
 
 import (
+	"context"
 	"encoding/json"
+	"strings"
 	"testing"
 
 	toolruntime "forgecode/internal/tool-runtime"
@@ -58,5 +60,35 @@ func TestRegisterBuiltinsDetectsConflicts(t *testing.T) {
 	err := RegisterBuiltins(reg, Deps{})
 	if !toolruntime.IsCategory(err, toolruntime.ConflictError) {
 		t.Fatalf("expected ConflictError, got %v", err)
+	}
+}
+
+func TestRegisteredWriteAndEditToolsExecuteRealImplementations(t *testing.T) {
+	root := t.TempDir()
+	reg := toolruntime.NewRegistry()
+	if err := RegisterBuiltins(reg, Deps{WorkspaceRoot: root, Checkpointer: &fakeCheckpointer{id: "cp"}}); err != nil {
+		t.Fatal(err)
+	}
+
+	writeTool, ok := reg.Get(ToolWriteFile)
+	if !ok {
+		t.Fatal("WriteFile not registered")
+	}
+	if result, err := writeTool.Execute(context.Background(), mustJSON(t, WriteFileInput{Path: "notes.txt", Content: "old\n"})); err != nil {
+		t.Fatal(err)
+	} else if strings.Contains(result.Output, "not implemented") {
+		t.Fatalf("WriteFile still uses placeholder: %#v", result)
+	}
+
+	editTool, ok := reg.Get(ToolEditFile)
+	if !ok {
+		t.Fatal("EditFile not registered")
+	}
+	result, err := editTool.Execute(context.Background(), mustJSON(t, EditFileInput{Path: "notes.txt", OldString: "old", NewString: "new"}))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(result.Output, "-old") || !strings.Contains(result.Output, "+new") {
+		t.Fatalf("unexpected EditFile output: %q", result.Output)
 	}
 }

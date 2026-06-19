@@ -19,3 +19,4 @@
 | Q13 | Hook 默认失败策略 | 安全敏感事件 fail-closed，通知类 fail-open | extension-system | Assumed | 安全评审 |
 | Q14 | 多 Agent 预算分配 | 父预算切分给子，子超额不回溯父；递归深度默认 ≤ 3 | agent-orchestration | Assumed | — |
 | Q15 | Eval 评分方式 | 标杆场景用规则断言 + 可选模型评审；避免纯主观 | evaluation | Open | V0.2 |
+| Q16 | Bash 分析实现路径 | MVP 采用自研保守 lexer，覆盖程序/参数、管道、重定向、子 Shell、命令替换与 P0 危险模式；若 RISK-006 误判率超阈值，再引入完整 shell parser | permission-engine | Resolved | FC-PERM-005 |

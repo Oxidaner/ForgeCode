@@ -32,7 +32,8 @@
   Evidence: `internal/telemetry/usage_test.go`
 - [ ] AuditSink Integration
 - [ ] 依赖检查：telemetry 不 import 业务模块
-- [ ] `go test -race` 通过
+- [x] `go test -race` 通过
+  Evidence: `go test -race ./...`
 
 ## Documentation Complete
 - [ ] SPEC 与实现一致

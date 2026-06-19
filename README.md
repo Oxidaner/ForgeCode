@@ -29,7 +29,7 @@ go test ./...
 go vet ./...
 ```
 
-`go test -race ./...` is planned for race verification. On Windows it requires CGO and a C compiler such as `gcc`.
+`go test -race ./...` is available when CGO and a Windows GCC toolchain are on `PATH` (this workspace uses MSYS2 UCRT64 GCC).
 
 ## Planned Capability Areas
 

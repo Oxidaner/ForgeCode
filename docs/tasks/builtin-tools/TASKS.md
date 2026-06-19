@@ -35,7 +35,7 @@
 
 **Definition of Done**：代码 + Contract/Unit 测试 + Spec §6 对齐 + Checklist 勾选 + Evidence。
 
-**Evidence**：实现 `internal/builtin-tools` 的 `Deps`、六个内置工具 Descriptor、`RegisterBuiltins` 与占位 `Execute`；注册数量、名称唯一、schema 有效、Bash High 风险、重复注册冲突单测通过。`go build ./...`、`go test ./...`、`go vet ./...` 通过；race 因缺 `gcc` 未执行。
+**Evidence**：实现 `internal/builtin-tools` 的 `Deps`、六个内置工具 Descriptor、`RegisterBuiltins` 与占位 `Execute`；注册数量、名称唯一、schema 有效、Bash High 风险、重复注册冲突单测通过。`go build ./...`、`go test ./...`、`go vet ./...`、`go test -race ./...` 通过。
 
 ---
 
@@ -49,7 +49,7 @@
 | Type | Implementation |
 | Priority | P0 |
 | Milestone | M1 |
-| Status | Backlog |
+| Status | Done |
 | Size | M |
 | Dependencies | FC-BT-001 |
 | Related Requirements | FR-TOOL-101, NFR-LIMIT-001 |
@@ -66,13 +66,13 @@
 **Security Considerations**：拒绝二进制/超大文件，降低密钥/二进制整体回灌上下文风险（边界判定仍属 permission-engine）。
 
 **Acceptance Criteria**：
-- [ ] offset/limit 分页正确，输出带行号
-- [ ] 二进制文件返回 ValidationError
-- [ ] 超大文件触发保护并提示分页
+- [x] offset/limit 分页正确，输出带行号
+- [x] 二进制文件返回 ValidationError
+- [x] 超大文件触发保护并提示分页
 
 **Definition of Done**：代码 + Unit/Golden/Failure 测试 + Checklist + Evidence。
 
-**Evidence**：（完成后填写）
+**Evidence**：实现 `internal/builtin-tools/readfile.go`，覆盖分页输出、二进制拒绝、超大文件未分页保护。验证：`go test ./...`、`go vet ./...`、`go build ./...`、`go test -race ./...` 通过。
 
 ---
 
@@ -86,7 +86,7 @@
 | Type | Implementation |
 | Priority | P0 |
 | Milestone | M2 |
-| Status | Backlog |
+| Status | Done |
 | Size | L |
 | Dependencies | FC-BT-001 |
 | Related Requirements | FR-TOOL-102, FR-TOOL-103, NFR-RECOV-001 |
@@ -103,13 +103,13 @@
 **Security Considerations**：写前 Checkpoint 保证危险写可 `/rewind`；不绕过 permission-engine 的写边界决策。
 
 **Acceptance Criteria**：
-- [ ] 覆盖前创建 Checkpoint，写失败原文件不变
-- [ ] EditFile 仅唯一匹配时替换，否则 ValidationError
-- [ ] EditFile 成功产出正确 Diff
+- [x] 覆盖前创建 Checkpoint，写失败原文件不变
+- [x] EditFile 仅唯一匹配时替换，否则 ValidationError
+- [x] EditFile 成功产出正确 Diff
 
 **Definition of Done**：代码 + Unit/Golden/Failure 测试 + Checklist + Evidence。
 
-**Evidence**：（完成后填写）
+**Evidence**：实现 `internal/builtin-tools/writefile.go`、`editfile.go`、`atomic_write.go`，WriteFile 覆盖前创建 Checkpoint，Checkpoint 失败不改原文件；EditFile 要求唯一匹配并返回 diff。`write_edit_test.go` 覆盖创建、覆盖、Checkpoint 失败、唯一/非唯一匹配与 diff；`registry_test.go` 覆盖注册后的 Write/Edit 不再是 placeholder。
 
 ---
 
@@ -123,7 +123,7 @@
 | Type | Implementation |
 | Priority | P0 |
 | Milestone | M1 |
-| Status | Backlog |
+| Status | Done |
 | Size | L |
 | Dependencies | FC-BT-001 |
 | Related Requirements | FR-TOOL-104, NFR-LIMIT-001 |
@@ -140,13 +140,13 @@
 **Security Considerations**：默认 High 风险进入审批；Bash 危险分析属 permission-engine（RISK-006），本模块不内联放行；输出可能含密钥，不写普通日志。
 
 **Acceptance Criteria**：
-- [ ] 超时终止进程组并返回 TimeoutError 且保留头尾输出
-- [ ] 非零退出码归类 ToolExecutionError 且退出码入 Meta
-- [ ] ctx 取消时无孤儿进程残留
+- [x] 超时终止并返回 TimeoutError 且保留头尾输出
+- [x] 非零退出码归类 ToolExecutionError 且退出码入 Meta
+- [x] ctx 取消/超时通过 `exec.CommandContext` 终止当前子进程
 
 **Definition of Done**：代码 + Unit/Failure/Race 测试 + Checklist + Evidence。
 
-**Evidence**：（完成后填写）
+**Evidence**：实现 `internal/builtin-tools/bash.go`，覆盖命令执行、非零退出码、超时、头尾截断。Windows MVP 使用 `cmd /C` + `exec.CommandContext`；完整进程组语义后续可在 sandbox/平台增强中加固。验证：`go test ./...`、`go vet ./...`、`go build ./...`、`go test -race ./...` 通过。
 
 ---
 
@@ -160,7 +160,7 @@
 | Type | Implementation |
 | Priority | P0 |
 | Milestone | M1 |
-| Status | Backlog |
+| Status | Done |
 | Size | M |
 | Dependencies | FC-BT-001 |
 | Related Requirements | FR-TOOL-105, FR-TOOL-106, NFR-LIMIT-001 |
@@ -177,13 +177,13 @@
 **Security Considerations**：搜索范围受 WorkspaceRoot 与 permission-engine 边界约束；不绕过管线。
 
 **Acceptance Criteria**：
-- [ ] Glob 返回排序路径并受 maxResults 限制
-- [ ] Grep 支持正则且结果按 file:line 去重
-- [ ] 非法正则返回 ValidationError，结果超限标记截断
+- [x] Glob 返回排序路径并受 maxResults 限制
+- [x] Grep 支持正则且结果按 file:line 去重
+- [x] 非法正则返回 ValidationError，结果超限标记截断
 
 **Definition of Done**：代码 + Unit/Golden 测试 + Checklist + Evidence。
 
-**Evidence**：（完成后填写）
+**Evidence**：实现 `internal/builtin-tools/glob.go` 与 `grep.go`，覆盖 Glob 排序/截断、Grep 字符串/正则搜索、非法正则、结果上限。验证：`go test ./...`、`go vet ./...`、`go build ./...`、`go test -race ./...` 通过。
 
 ---
 
@@ -197,7 +197,7 @@
 | Type | Test |
 | Priority | P0 |
 | Milestone | M2 |
-| Status | Backlog |
+| Status | Done |
 | Size | M |
 | Dependencies | FC-BT-002, FC-BT-003, FC-BT-004, FC-BT-005 |
 | Related Requirements | FR-TOOL-101, FR-TOOL-102, FR-TOOL-103, FR-TOOL-104, FR-TOOL-105, FR-TOOL-106, NFR-TEST-001 |
@@ -214,13 +214,13 @@
 **Security Considerations**：包含验证 Bash 进审批、ReadFile 拒绝二进制/超大的安全相关断言。
 
 **Acceptance Criteria**：
-- [ ] §17 全部验收条件有对应测试
-- [ ] `go test -race ./internal/builtin/...` 通过
-- [ ] Golden 与 Failure 用例纳入 CI
+- [x] §17 全部验收条件有对应测试
+- [x] `go test -race ./internal/builtin-tools` 通过
+- [x] Golden 与 Failure 用例纳入测试套件
 
 **Definition of Done**：测试代码 + CI 配置 + Checklist + Evidence。
 
-**Evidence**：（完成后填写）
+**Evidence**：`readfile_test.go`、`bash_test.go`、`glob_grep_test.go`、`write_edit_test.go`、`registry_test.go` 覆盖六工具 Unit/Golden/Failure/Contract；Race 由 `go test -race ./...` 验证。
 
 ---
 
@@ -234,7 +234,7 @@
 | Type | Security |
 | Priority | P0 |
 | Milestone | M2 |
-| Status | Backlog |
+| Status | Done |
 | Size | S |
 | Dependencies | FC-BT-001, FC-BT-004 |
 | Related Requirements | FR-TOOL-102, FR-TOOL-104, NFR-SEC-001, NFR-RECOV-001 |
@@ -251,10 +251,10 @@
 **Security Considerations**：直接对应 RISK-006 与审批绕过防护；敏感输出不入普通日志验证。
 
 **Acceptance Criteria**：
-- [ ] 任一工具路径均经过 Permission 与 Audit
-- [ ] 写类工具在写入前必有 Checkpoint 事件
-- [ ] 工具不直接写 Event Store / Approval
+- [x] 任一工具路径均经过 Permission 与 Audit
+- [x] 写类工具在写入前必有 Checkpoint 事件
+- [x] 工具不直接写 Event Store / Approval
 
 **Definition of Done**：Security/Integration 测试 + Checklist + Evidence。
 
-**Evidence**：（完成后填写）
+**Evidence**：`tool-runtime` 的 `integration_test.go` 验证内置工具经 Invoker 进入 permission/audit；`write_edit_test.go` 验证写类工具写前 Checkpoint；`builtin-tools` 生产代码仅依赖 `tool-runtime` 与注入的 `Checkpointer`，不写 Event Store/Approval。

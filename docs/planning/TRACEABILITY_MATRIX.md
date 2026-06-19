@@ -19,23 +19,23 @@
 | FR-PROVIDER-005 | model-provider | §6 | FC-PROV-007 | Unit | model-provider/Impl | Planned |
 | FR-PROVIDER-006 | model-provider | §6 | FC-PROV-001/006 | Contract | model-provider/Impl | Planned |
 | FR-TOOL-001 | tool-runtime | §6 | FC-TOOL-001 | Unit/Contract | tool-runtime/Design | Implemented |
-| FR-TOOL-002 | tool-runtime | §8/§9 | FC-TOOL-002 | 管线 Integration/Security | tool-runtime/Impl | Planned |
-| FR-TOOL-003 | tool-runtime | §9 | FC-TOOL-003 | Failure | tool-runtime/Impl | Planned |
+| FR-TOOL-002 | tool-runtime | §8/§9 | FC-TOOL-002 | 管线 Integration/Security | tool-runtime/Impl | Implemented |
+| FR-TOOL-003 | tool-runtime | §9 | FC-TOOL-003 | Failure | tool-runtime/Impl | Implemented |
 | FR-TOOL-004 | tool-runtime, mcp-client | §9 | FC-TOOL-006, FC-MCP-004 | Contract | tool-runtime/Test | Planned |
-| FR-TOOL-101 | builtin-tools | §ReadFile | FC-BT-002 | Unit/Golden | builtin-tools/Impl | Planned |
-| FR-TOOL-102 | builtin-tools | §WriteFile | FC-BT-003 | Failure | builtin-tools/Impl | Planned |
-| FR-TOOL-103 | builtin-tools | §EditFile | FC-BT-003 | Golden | builtin-tools/Impl | Planned |
-| FR-TOOL-104 | builtin-tools | §Bash | FC-BT-004 | Unit/Failure | builtin-tools/Impl | Planned |
-| FR-TOOL-105 | builtin-tools | §Glob | FC-BT-005 | Unit | builtin-tools/Impl | Planned |
-| FR-TOOL-106 | builtin-tools | §Grep | FC-BT-005 | Unit | builtin-tools/Impl | Planned |
+| FR-TOOL-101 | builtin-tools | §ReadFile | FC-BT-002 | Unit/Golden | builtin-tools/Impl | Implemented |
+| FR-TOOL-102 | builtin-tools | §WriteFile | FC-BT-003 | Failure | builtin-tools/Impl | Implemented |
+| FR-TOOL-103 | builtin-tools | §EditFile | FC-BT-003 | Golden | builtin-tools/Impl | Implemented |
+| FR-TOOL-104 | builtin-tools | §Bash | FC-BT-004 | Unit/Failure | builtin-tools/Impl | Implemented |
+| FR-TOOL-105 | builtin-tools | §Glob | FC-BT-005 | Unit | builtin-tools/Impl | Implemented |
+| FR-TOOL-106 | builtin-tools | §Grep | FC-BT-005 | Unit | builtin-tools/Impl | Implemented |
 | FR-PERM-001 | permission-engine | §6 | FC-PERM-001 | Unit/Contract | permission-engine/Design | Implemented |
-| FR-PERM-002 | permission-engine | §3(L1) | FC-PERM-002 | Security | permission-engine/Impl | Planned |
-| FR-PERM-003 | permission-engine | §3(L2)/§14 | FC-PERM-003 | Security 语料库 | permission-engine/Impl | Planned |
-| FR-PERM-004 | permission-engine | §3(L3) | FC-PERM-004 | Unit | permission-engine/Impl | Planned |
-| FR-PERM-005 | permission-engine | §6/§14 | FC-PERM-005 | Golden/Security | permission-engine/Impl | Planned |
+| FR-PERM-002 | permission-engine | §3(L1) | FC-PERM-002 | Security | permission-engine/Impl | Implemented |
+| FR-PERM-003 | permission-engine | §3(L2)/§14 | FC-PERM-003 | Security 语料库 | permission-engine/Impl | Implemented |
+| FR-PERM-004 | permission-engine | §3(L3) | FC-PERM-004 | Unit | permission-engine/Impl | Implemented |
+| FR-PERM-005 | permission-engine | §6/§14 | FC-PERM-005 | Golden/Security | permission-engine/Impl | Implemented |
 | FR-PERM-006 | permission-engine, sandbox | §3(L4) | FC-PERM-006, FC-SBX-001 | Integration | sandbox/Impl | Planned |
-| FR-PERM-007 | permission-engine, telemetry | §3(L5) | FC-PERM-007, FC-TEL-003 | Audit | permission-engine/Impl | Planned |
-| FR-PERM-008 | permission-engine | §9 | FC-PERM-001/008 | Unit | permission-engine/Impl | Planned |
+| FR-PERM-007 | permission-engine, telemetry | §3(L5) | FC-PERM-007, FC-TEL-003 | Audit | permission-engine/Impl | Partially Implemented |
+| FR-PERM-008 | permission-engine | §9 | FC-PERM-001/008 | Unit | permission-engine/Impl | Implemented |
 | FR-SANDBOX-001 | sandbox | §6 | FC-SBX-001 | Docker Integration | sandbox/Impl | Planned |
 | FR-SANDBOX-002 | sandbox | §6 | FC-SBX-002/004 | Security | sandbox/Impl | Planned |
 | FR-SANDBOX-003 | sandbox, permission-engine | §9 | FC-SBX-003 | Failure | sandbox/Impl | Planned |

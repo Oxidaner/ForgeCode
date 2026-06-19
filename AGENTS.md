@@ -32,7 +32,7 @@ ForgeCode：用 Go 自主实现的、模型无关的 Coding Agent Runtime 控制
 ## 命令
 - 构建：`go build ./...`
 - 测试：`go test ./...`
-- Race 测试：`go test -race ./...`（Windows 需可用 C 编译器与 CGO；缺 `gcc` 时会失败）
+- Race 测试：`go test -race ./...`（Windows 使用 MSYS2 UCRT64 GCC；需 CGO）
 - 格式化：`gofmt -w <go-files>`
 - 静态检查：`go vet ./...`
 

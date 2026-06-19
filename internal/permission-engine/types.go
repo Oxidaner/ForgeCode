@@ -3,6 +3,7 @@ package permission
 import (
 	"context"
 	"encoding/json"
+	"time"
 
 	toolruntime "forgecode/internal/tool-runtime"
 )
@@ -59,14 +60,29 @@ type DecisionRequest struct {
 }
 
 type Decision struct {
-	Effect  Effect
-	Risk    RiskLevel
-	Reasons []RuleHit
-	Layer   Layer
+	Effect   Effect
+	Risk     RiskLevel
+	Reasons  []RuleHit
+	Layer    Layer
+	Approval *ApprovalRequest
 }
 
 type Decider interface {
 	Decide(ctx context.Context, req DecisionRequest) (Decision, error)
+}
+
+type ApprovalRequest struct {
+	SessionID   string
+	AgentID     string
+	TeamID      string
+	Source      string
+	ToolName    string
+	ToolSource  toolruntime.ToolSource
+	Input       json.RawMessage
+	Effect      Effect
+	Risk        RiskLevel
+	Reasons     []RuleHit
+	RequestedAt time.Time
 }
 
 type BashAnalysis struct {

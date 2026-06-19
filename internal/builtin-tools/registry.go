@@ -1,16 +1,22 @@
 package builtin
 
 import (
-	"context"
-	"encoding/json"
+	"fmt"
 
 	toolruntime "forgecode/internal/tool-runtime"
 )
 
 func RegisterBuiltins(reg toolruntime.Registry, deps Deps) error {
 	deps = deps.withDefaults()
-	for _, descriptor := range Descriptors() {
-		if err := reg.Register(newPlaceholderTool(descriptor, deps)); err != nil {
+	for _, tool := range []toolruntime.Tool{
+		NewReadFileTool(deps),
+		NewWriteFileTool(deps),
+		NewEditFileTool(deps),
+		NewBashTool(deps),
+		NewGlobTool(deps),
+		NewGrepTool(deps),
+	} {
+		if err := reg.Register(tool); err != nil {
 			return err
 		}
 	}
@@ -18,53 +24,34 @@ func RegisterBuiltins(reg toolruntime.Registry, deps Deps) error {
 }
 
 func NewReadFileTool(d Deps) toolruntime.Tool {
-	return newPlaceholderTool(Descriptors()[0], d.withDefaults())
+	return readFileTool{descriptor: descriptorByName(ToolReadFile), deps: d.withDefaults()}
 }
 
 func NewWriteFileTool(d Deps) toolruntime.Tool {
-	return newPlaceholderTool(Descriptors()[1], d.withDefaults())
+	return writeFileTool{descriptor: descriptorByName(ToolWriteFile), deps: d.withDefaults()}
 }
 
 func NewEditFileTool(d Deps) toolruntime.Tool {
-	return newPlaceholderTool(Descriptors()[2], d.withDefaults())
+	return editFileTool{descriptor: descriptorByName(ToolEditFile), deps: d.withDefaults()}
 }
 
 func NewBashTool(d Deps) toolruntime.Tool {
-	return newPlaceholderTool(Descriptors()[3], d.withDefaults())
+	return bashTool{descriptor: descriptorByName(ToolBash), deps: d.withDefaults()}
 }
 
 func NewGlobTool(d Deps) toolruntime.Tool {
-	return newPlaceholderTool(Descriptors()[4], d.withDefaults())
+	return globTool{descriptor: descriptorByName(ToolGlob), deps: d.withDefaults()}
 }
 
 func NewGrepTool(d Deps) toolruntime.Tool {
-	return newPlaceholderTool(Descriptors()[5], d.withDefaults())
+	return grepTool{descriptor: descriptorByName(ToolGrep), deps: d.withDefaults()}
 }
 
-type placeholderTool struct {
-	descriptor toolruntime.ToolDescriptor
-	deps       Deps
-}
-
-func newPlaceholderTool(descriptor toolruntime.ToolDescriptor, deps Deps) toolruntime.Tool {
-	return placeholderTool{descriptor: descriptor, deps: deps}
-}
-
-func (t placeholderTool) Descriptor() toolruntime.ToolDescriptor {
-	return t.descriptor
-}
-
-func (t placeholderTool) Execute(ctx context.Context, input json.RawMessage) (toolruntime.ToolResult, error) {
-	if err := ctx.Err(); err != nil {
-		return toolruntime.ToolResult{}, err
+func descriptorByName(name string) toolruntime.ToolDescriptor {
+	for _, descriptor := range Descriptors() {
+		if descriptor.Name == name {
+			return descriptor
+		}
 	}
-	return toolruntime.ToolResult{
-		Output:   t.descriptor.Name + " execution is not implemented in FC-BT-001",
-		IsError:  true,
-		Category: toolruntime.ToolExecutionError,
-		Meta: map[string]any{
-			"workspace_root": t.deps.WorkspaceRoot,
-			"task":           "FC-BT-001",
-		},
-	}, nil
+	panic(fmt.Sprintf("missing built-in tool descriptor %q", name))
 }
