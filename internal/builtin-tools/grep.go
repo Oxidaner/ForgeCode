@@ -127,7 +127,7 @@ func grepFile(ctx context.Context, filePath, workspaceRoot, patternValue string,
 	if err != nil {
 		return nil, toolruntime.WrapError(toolruntime.ToolExecutionError, "open grep file", err)
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	scanner := bufio.NewScanner(file)
 	scanner.Buffer(make([]byte, 0, 64*1024), 1024*1024)

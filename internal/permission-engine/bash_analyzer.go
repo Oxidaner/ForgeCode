@@ -269,7 +269,7 @@ func isAssignment(text string) bool {
 		return false
 	}
 	for _, r := range text[:eq] {
-		if !(unicode.IsLetter(r) || unicode.IsDigit(r) || r == '_') {
+		if !unicode.IsLetter(r) && !unicode.IsDigit(r) && r != '_' {
 			return false
 		}
 	}

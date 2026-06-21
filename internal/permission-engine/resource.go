@@ -74,10 +74,7 @@ func resolveExistingOrParent(target string) (string, error) {
 		return resolved, nil
 	}
 	parent := filepath.Dir(target)
-	for {
-		if parent == "." || parent == string(filepath.Separator) || parent == filepath.Dir(parent) {
-			break
-		}
+	for parent != "." && parent != string(filepath.Separator) && parent != filepath.Dir(parent) {
 		if info, err := os.Stat(parent); err == nil && info.IsDir() {
 			resolved, err := filepath.EvalSymlinks(parent)
 			if err != nil {

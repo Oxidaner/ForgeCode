@@ -68,7 +68,7 @@ func (t readFileTool) Execute(ctx context.Context, raw json.RawMessage) (toolrun
 	if err != nil {
 		return toolruntime.ToolResult{}, toolruntime.WrapError(toolruntime.ToolExecutionError, "open file", err)
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	output, startLine, endLine, totalLines, truncated, err := readLinePage(ctx, file, offset, limit)
 	if err != nil {
@@ -94,7 +94,7 @@ func rejectBinaryFile(path string, probeBytes int) error {
 	if err != nil {
 		return toolruntime.WrapError(toolruntime.ToolExecutionError, "open file for binary probe", err)
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	buf := make([]byte, probeBytes)
 	n, err := file.Read(buf)
@@ -129,7 +129,7 @@ func readLinePage(ctx context.Context, reader io.Reader, offset, limit int) (str
 					startLine = lineNo
 				}
 				endLine = lineNo
-				builder.WriteString(fmt.Sprintf("%d: %s", lineNo, line))
+				fmt.Fprintf(&builder, "%d: %s", lineNo, line)
 				if !strings.HasSuffix(line, "\n") {
 					builder.WriteByte('\n')
 				}

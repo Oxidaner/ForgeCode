@@ -3,7 +3,6 @@ package toolruntime
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"testing"
 	"time"
 )
@@ -326,5 +325,3 @@ func assertOrder(t *testing.T, got, want []string) {
 		}
 	}
 }
-
-var errHookDenied = errors.New("hook denied")
