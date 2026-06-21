@@ -4,7 +4,7 @@
 
 | ID | 问题 | 当前假设 | 影响模块 | 状态 | 决策方式 |
 | --- | --- | --- | --- | --- | --- |
-| Q1 | 目标 Go 版本 | 假设 Go 1.22+（泛型、`log/slog`、`errors.Join`） | 全体 | Open | 首个 Spike（FC-RT-000）确认 |
+| Q1 | 目标 Go 版本 | `go.mod` 使用 Go 1.22；当前本地验证工具链为 Go 1.26.4 | 全体 | Resolved | 首批实现已初始化 Go module |
 | Q2 | SQLite 驱动选型 | 候选 `modernc.org/sqlite`（纯 Go，免 CGO）；需确认 FTS5 支持 | session-store, memory-system | Open | Spike 验证 FTS5 |
 | Q3 | Git 操作方式 | 候选 `git` CLI 包装（Worktree 兼容性好）vs `go-git`（Worktree 支持有限） | git-worktree | Open | V0.3 前 Spike |
 | Q4 | Token 估算精度 | MVP 用启发式（字符/词近似 + 模型系数），非精确 tokenizer | context-manager | Open | 误差超 15% 时引入 tokenizer |
@@ -19,3 +19,4 @@
 | Q13 | Hook 默认失败策略 | 安全敏感事件 fail-closed，通知类 fail-open | extension-system | Assumed | 安全评审 |
 | Q14 | 多 Agent 预算分配 | 父预算切分给子，子超额不回溯父；递归深度默认 ≤ 3 | agent-orchestration | Assumed | — |
 | Q15 | Eval 评分方式 | 标杆场景用规则断言 + 可选模型评审；避免纯主观 | evaluation | Open | V0.2 |
+| Q16 | Bash 分析实现路径 | MVP 采用自研保守 lexer，覆盖程序/参数、管道、重定向、子 Shell、命令替换与 P0 危险模式；若 RISK-006 误判率超阈值，再引入完整 shell parser | permission-engine | Resolved | FC-PERM-005 |

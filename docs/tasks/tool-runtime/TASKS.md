@@ -3,39 +3,42 @@
 模块：`tool-runtime`。Task 前缀 `FC-TOOL`。相关需求 FR-TOOL-001..004。ADR-0004/0005。RISK-005。
 
 ## FC-TOOL-001 — Tool 接口、Descriptor 与 Registry
-| Type | Architecture | Priority | P0 | Milestone | M1 | Status | Ready | Size | M |
+| Type | Architecture | Priority | P0 | Milestone | M1 | Status | Done | Size | M |
 | Dependencies | - | Related Requirements | FR-TOOL-001 | Spec | §6 |
 
 **Description**：定义 `Tool`、`ToolDescriptor`、`Registry`，含 Namespace 与命名冲突处理。
 **Files**：`internal/tool-runtime/tool.go`, `registry.go`。
 **Tests Required**：注册/发现/冲突 Unit。
 **Acceptance Criteria**：
-- [ ] 命名冲突返回 ConflictError
-- [ ] Descriptor 含来源与 schema
+- [x] 命名冲突返回 ConflictError
+- [x] Descriptor 含来源与 schema
 **Definition of Done**：接口评审 + 测试通过。
+**Evidence**：实现 `internal/tool-runtime` 的 `Tool`、`ToolDescriptor`、`Registry`、`ToolCall`、`ToolResult` 与错误分类；注册/发现/冲突/非法 schema 单测通过。`go build ./...`、`go test ./...`、`go vet ./...`、`go test -race ./...` 通过。
 
 ## FC-TOOL-002 — 统一调用管线 Invoker
-| Type | Architecture | Priority | P0 | Milestone | M2 | Status | Backlog | Size | L |
+| Type | Architecture | Priority | P0 | Milestone | M2 | Status | Done | Size | L |
 | Dependencies | FC-TOOL-001, FC-PERM-001, FC-EVT-002 | Related Requirements | FR-TOOL-002 |
 
 **Description**：实现 Validation→Permission→PreHook→Execute→PostHook→Audit，顺序不可跳过。
 **Security Considerations**：单点强制权限（NFR-SEC-001）。
 **Tests Required**：管线顺序 Integration + 绕过尝试 Security Test。
 **Acceptance Criteria**：
-- [ ] 缺任一阶段测试失败
-- [ ] Deny 阻止执行
+- [x] 缺任一阶段测试失败
+- [x] Deny 阻止执行
 **Definition of Done**：与 permission-engine + 一个内置工具跑通。
+**Evidence**：实现 `internal/tool-runtime/invoker.go`，定义 `PermissionChecker`、`Hook`、`AuditSink` 管线契约，按 Validation→Permission→PreHook→Execute→PostHook/ToolFailure→Audit 顺序调用；`internal/tool-runtime/invoker_test.go` 覆盖顺序、Deny、ApprovalRequired、Audit；`integration_test.go` 覆盖与 `permission-engine.PolicyDecider` + 内置 ReadFile/Bash 跑通。
 
 ## FC-TOOL-003 — 截断、超时与错误分类
-| Type | Implementation | Priority | P0 | Milestone | M2 | Status | Backlog | Size | M |
+| Type | Implementation | Priority | P0 | Milestone | M2 | Status | Done | Size | M |
 | Dependencies | FC-TOOL-002 | Related Requirements | FR-TOOL-003, NFR-LIMIT-001 |
 
 **Description**：输出硬截断（标注 Truncated）、执行超时、错误归类到 GLOSSARY。
 **Tests Required**：截断/超时/取消 Failure Injection。
 **Acceptance Criteria**：
-- [ ] 超 max_output_bytes 截断
-- [ ] 超时归 TimeoutError 并落 ToolFailure
+- [x] 超 max_output_bytes 截断
+- [x] 超时归 TimeoutError 并落 ToolFailure
 **Definition of Done**：失败注入测试通过。
+**Evidence**：`PipelineInvoker` 支持 `MaxOutputBytes` 与 `DefaultTimeout`；`invoker_test.go` 覆盖输出硬截断、TimeoutError、CancelledError 和 ToolFailure hook/audit 路径。
 
 ## FC-TOOL-004 — 审批结果回填与 ApprovalRequired 协议
 | Type | Implementation | Priority | P0 | Milestone | M2 | Status | Backlog | Size | M |

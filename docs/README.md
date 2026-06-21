@@ -1,6 +1,6 @@
 # ForgeCode 文档导航
 
-本目录是 ForgeCode 的架构与规划文档集。当前处于 **架构规划阶段**：仅设计文档，无生产代码。
+本目录是 ForgeCode 的架构与规划文档集。当前已从 **架构规划阶段** 进入首批 Ready P0 Task 的实现阶段；实现范围以对应 Task 和 Spec 为准。
 
 ## 阅读顺序
 1. [master-plan.md](master-plan.md) — 原始规划指令（输入）。
