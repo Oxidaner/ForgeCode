@@ -17,9 +17,9 @@ ForgeCode is designed to be:
 
 ## Current Stage
 
-ForgeCode is currently in the architecture and planning phase.
+ForgeCode has moved from architecture planning into the first P0 implementation batch.
 
-The active master plan is maintained in [docs/master-plan.md](docs/master-plan.md). This phase is limited to Markdown, YAML, JSON, and other planning documents. Production code and dependency installation are intentionally out of scope until the architecture, module specs, task breakdowns, checklists, ADRs, traceability matrix, roadmap, and risk register are ready.
+The active master plan is maintained in [docs/master-plan.md](docs/master-plan.md). Implementation work is scoped by the Ready/P0 tasks in [docs/tasks/MASTER_TASKS.md](docs/tasks/MASTER_TASKS.md) and the two-person ownership split in [docs/planning/TWO_PERSON_WORK_SPLIT.md](docs/planning/TWO_PERSON_WORK_SPLIT.md).
 
 ## Planned Capability Areas
 
@@ -52,4 +52,4 @@ The master plan calls for the repository to grow a planning document set that in
 
 ## Status
 
-No production runtime code has been implemented yet. The next step is to turn the master plan into the first set of architecture and planning documents.
+Initial Go code exists for the Runtime Owner first batch. Each completed task records Evidence in its module `TASKS.md` and `CHECKLIST.md`.

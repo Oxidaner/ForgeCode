@@ -6,30 +6,35 @@
 | 字段 | 值 |
 | --- | --- |
 | ID | FC-PROV-001 | 
-| Type | Architecture | Priority | P0 | Milestone | M1 | Status | Ready | Size | M |
+| Type | Architecture | Priority | P0 | Milestone | M1 | Status | Done | Size | M |
 | Dependencies | - | Related Requirements | FR-PROVIDER-001, FR-PROVIDER-006 | Spec | §6 |
 
 **Description**：定义 `Provider` 接口、`ChatRequest/ChatResponse`、中立 Message/ToolCall/Usage/StopReason 结构。
 **Implementation Notes**：私有结构禁止泄漏到 runtime-core；接口在本模块定义、构造注入。
-**Files**：`internal/model-provider/provider.go`, `types.go`。
+**Files**：`internal/model-provider/types.go`。
 **Tests Required**：接口契约骨架、类型序列化 Unit。
 **Security Considerations**：响应视为不可信输入。
 **Acceptance Criteria**：
-- [ ] 接口不含任何 Provider 私有字段
-- [ ] runtime-core 仅 import 本接口
+- [x] 接口不含任何 Provider 私有字段
+- [x] runtime-core 仅 import 本接口（当前未引入任何具体 Provider；FC-RT-002 将以此接口注入）
 **Definition of Done**：接口评审通过 + Contract Test 骨架。
 **Evidence**：
+- 2026-06-22：`go test ./internal/model-provider` 通过。
+- 2026-06-22：`internal/model-provider/provider_test.go` 覆盖中立请求/响应序列化、ToolCall/Usage/StopReason 与 `ProviderError` retry metadata。
 
 ## FC-PROV-002 — Mock Provider
-| Type | Implementation | Priority | P0 | Milestone | M1 | Status | Ready | Size | S |
+| Type | Implementation | Priority | P0 | Milestone | M1 | Status | Done | Size | S |
 | Dependencies | FC-PROV-001 | Related Requirements | FR-PROVIDER-003 |
 
 **Description**：可编程 Mock Provider，支持预设响应/工具调用/错误/延迟，供全栈测试。
 **Tests Required**：Mock 自身 Unit。
 **Acceptance Criteria**：
-- [ ] 可注入普通响应、多 Tool Call、错误、超时
-- [ ] 确定性可重放
+- [x] 可注入普通响应、多 Tool Call、错误、超时
+- [x] 确定性可重放
 **Definition of Done**：Mock 可被其他模块测试复用。
+**Evidence**：
+- 2026-06-22：`go test ./internal/model-provider` 通过。
+- 2026-06-22：`internal/model-provider/mock_test.go` 覆盖脚本化响应、多 Tool Call、ProviderError、延迟触发 context timeout、Capability 配置、Streaming chunks、脚本耗尽错误与请求记录。
 
 ## FC-PROV-003 — 普通响应与 Streaming
 | Type | Implementation | Priority | P0 | Milestone | M1 | Status | Backlog | Size | M |

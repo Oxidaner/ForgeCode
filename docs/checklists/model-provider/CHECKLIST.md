@@ -3,25 +3,25 @@
 模块：`model-provider`。相关需求 FR-PROVIDER-001..006。ADR-0003。
 
 ## Design Ready
-- [ ] 中立 `Provider` 接口已定义，不含 Provider 私有字段（FC-PROV-001）
-- [ ] 中立 Message/ToolCall/Usage/StopReason 模型已定义
-- [ ] runtime-core 仅依赖接口（依赖反转，DEPENDENCY_GRAPH 一致）
-- [ ] 错误归一为 `ProviderError`（含 RateLimit 子类），分类符合 GLOSSARY
+- [x] 中立 `Provider` 接口已定义，不含 Provider 私有字段（FC-PROV-001；Evidence: `internal/model-provider/types.go`）
+- [x] 中立 Message/ToolCall/Usage/StopReason 模型已定义（Evidence: `go test ./internal/model-provider`）
+- [x] runtime-core 仅依赖接口（当前未依赖具体 Provider；FC-RT-002 将通过接口注入）
+- [x] 错误归一为 `ProviderError`（含 RateLimit 子类），分类符合 GLOSSARY（Evidence: `provider_test.go`）
 - [ ] 能力差异矩阵（RISK-004）记录策略已定义
 
 ## Implementation Ready
-- [ ] 任务已拆分（接口/Mock/流式/工具调用/错误/适配器/契约）
-- [ ] Mock Provider 边界已定义（FC-PROV-002）
+- [x] 任务已拆分（接口/Mock/流式/工具调用/错误/适配器/契约）
+- [x] Mock Provider 边界已定义（FC-PROV-002；Evidence: `internal/model-provider/mock.go`）
 - [ ] 重试/超时/退避默认参数已定义
 - [ ] Contract Test 套件结构已定义（FC-PROV-009）
 
 ## Implementation Complete
 - [ ] 普通响应与 Streaming 行为一致（FR-PROVIDER-001）
-- [ ] 多 Tool Call 顺序与 ID 保留（FR-PROVIDER-002）
-- [ ] Stop Reason 与 Token Usage 正确解析
+- [x] 多 Tool Call 顺序与 ID 保留（Mock Provider；Evidence: `mock_test.go`）
+- [x] Stop Reason 与 Token Usage 正确解析（中立类型与 Mock response replay；Evidence: `provider_test.go`, `mock_test.go`）
 - [ ] 瞬时错误退避重试、不可重试快速失败（FR-PROVIDER-004）
-- [ ] provider-specific 结构未泄漏到 runtime-core（FR-PROVIDER-006）
-- [ ] Context Cancellation 中断请求/流
+- [x] provider-specific 结构未泄漏到 runtime-core（FR-PROVIDER-006）
+- [x] Context Cancellation 中断请求/流（Mock 延迟场景；Evidence: `TestMockProviderDelayHonorsContextDeadline`）
 
 ## Test Complete
 - [ ] Mock + OpenAI 通过统一 Contract Test
@@ -31,7 +31,7 @@
 - [ ] Anthropic/OpenAI-Compatible 通过 Contract Test（V0.2，FC-PROV-008）
 
 ## Documentation Complete
-- [ ] SPEC 接口与实现一致
+- [x] SPEC 接口与实现一致
 - [ ] 能力元数据来源记录（OPEN_QUESTIONS Q3-PROV）
 - [ ] 配置示例（API key 经环境变量，不入日志）
 

@@ -3,7 +3,7 @@
 模块：`runtime-core`。Task 前缀 `FC-RT`。相关需求 FR-RUNTIME-001..006。ADR-0001/0002/0003。RISK-001/003/020。
 
 ## FC-RT-000 — Spike：Go 版本与运行时基线
-| Type | Spike | Priority | P0 | Milestone | M1 | Status | Ready | Size | XS |
+| Type | Spike | Priority | P0 | Milestone | M1 | Status | Done | Size | XS |
 | Dependencies | - | Related Requirements | NFR-MAINT-001 |
 
 **需回答的问题**：目标 Go 版本（OPEN_QUESTIONS Q1）、context/slog/errors 用法基线。
@@ -11,9 +11,12 @@
 **输出决策**：确定 Go 版本，更新 AGENTS.md 与 Q1。
 **结束条件**：版本写入文档。
 **Evidence**：
+- 2026-06-22：`go version` = `go1.26.1 darwin/arm64`。
+- 2026-06-22：`go.mod` 使用 `go 1.22` 兼容基线。
+- 2026-06-22：`go test ./internal/runtime-core` 通过，覆盖泛型、`log/slog`、`errors.Join`。
 
 ## FC-RT-001 — Agent 状态机
-| Type | Architecture | Priority | P0 | Milestone | M1 | Status | Ready | Size | M |
+| Type | Architecture | Priority | P0 | Milestone | M1 | Status | Done | Size | M |
 | Dependencies | FC-RT-000, FC-EVT-001 | Related Requirements | FR-RUNTIME-001 | Spec | §8 |
 
 **Description**：实现 Agent State 枚举与合法转移表，非法转移拒绝并记录 AgentStateChanged。
@@ -21,9 +24,12 @@
 **Files**：`internal/runtime-core/state.go`。
 **Tests Required**：转移 Unit + 非法转移 Golden。
 **Acceptance Criteria**：
-- [ ] 所有 §8 转移合法、其余被拒
-- [ ] 每次转移产生事件
+- [x] 所有 §8 转移合法、其余被拒
+- [x] 每次转移产生事件
 **Definition of Done**：状态机评审 + 测试通过。
+**Evidence**：
+- 2026-06-22：`go test ./internal/runtime-core` 通过。
+- 2026-06-22：`internal/runtime-core/state_test.go` 覆盖 GLOSSARY 状态顺序、Spec §8 合法/非法转移、`AgentStateChanged` 事件 Payload。
 
 ## FC-RT-002 — Runtime Coordinator 与依赖装配
 | Type | Architecture | Priority | P0 | Milestone | M1 | Status | Backlog | Size | M |

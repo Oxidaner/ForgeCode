@@ -100,11 +100,11 @@ type ChatResponse struct {
 
 // StreamChunk 为统一流式分块。
 type StreamChunk struct {
-    Kind         ChunkKind  // TextDelta / ToolCallDelta / StopReason / UsageUpdate
-    TextDelta    string
-    ToolCallР    *ToolCallDelta
-    StopReason   StopReason
-    Usage        *TokenUsage
+    Kind          ChunkKind  // TextDelta / ToolCallDelta / StopReason / UsageUpdate
+    TextDelta     string
+    ToolCallDelta *ToolCallDelta
+    StopReason    StopReason
+    Usage         *TokenUsage
 }
 
 // ToolCall 为中立工具调用（结构契约由 tool-runtime 拥有，本模块只生产）。

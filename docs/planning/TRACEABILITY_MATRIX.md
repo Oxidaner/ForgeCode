@@ -1,23 +1,23 @@
 # TRACEABILITY_MATRIX
 
-需求 → 模块 → Spec 章节 → Task → Test/Eval → Checklist → Status 的追踪。所有 P0 需求至少对应一个模块、一个 Spec 章节、一个 Task、一个测试/Eval、一个 Checklist 验收项。Status 反映规划阶段（均为 Planned，待实现推进）。
+需求 → 模块 → Spec 章节 → Task → Test/Eval → Checklist → Status 的追踪。所有 P0 需求至少对应一个模块、一个 Spec 章节、一个 Task、一个测试/Eval、一个 Checklist 验收项。Status 反映实现推进状态：Planned / Partial / Done。
 
 ## 功能需求（Functional）
 
 | Requirement | Module | Spec Section | Task | Test/Eval | Checklist | Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| FR-RUNTIME-001 | runtime-core | §8 | FC-RT-001/003 | 状态转移 Golden | runtime-core/Impl | Planned |
+| FR-RUNTIME-001 | runtime-core | §8 | FC-RT-001/003 | 状态转移 Golden | runtime-core/Impl | Partial（FC-RT-001 Done） |
 | FR-RUNTIME-002 | runtime-core | §6/§10 | FC-RT-004 | 上限 Unit | runtime-core/Impl | Planned |
 | FR-RUNTIME-003 | runtime-core | §9/§12 | FC-RT-006 | 取消 Integration | runtime-core/Test | Planned |
 | FR-RUNTIME-004 | runtime-core | §9 | FC-RT-005 | 循环 Failure | runtime-core/Impl | Planned |
 | FR-RUNTIME-005 | runtime-core | §13 | FC-RT-007 | Provider Failure | runtime-core/Impl | Planned |
 | FR-RUNTIME-006 | runtime-core, session-store | §9 | FC-RT-006, FC-SESS-003 | Recovery | runtime-core/Test | Planned |
-| FR-PROVIDER-001 | model-provider | §6 | FC-PROV-001/003 | Contract | model-provider/Impl | Planned |
+| FR-PROVIDER-001 | model-provider | §6 | FC-PROV-001/003 | Contract | model-provider/Impl | Partial（FC-PROV-001 Done） |
 | FR-PROVIDER-002 | model-provider | §6 | FC-PROV-004 | Contract | model-provider/Impl | Planned |
-| FR-PROVIDER-003 | model-provider | §6 | FC-PROV-002/006/008 | Contract | model-provider/Test | Planned |
+| FR-PROVIDER-003 | model-provider | §6 | FC-PROV-002/006/008 | Contract | model-provider/Test | Partial（Mock Provider Done） |
 | FR-PROVIDER-004 | model-provider | §13 | FC-PROV-005 | Failure | model-provider/Impl | Planned |
 | FR-PROVIDER-005 | model-provider | §6 | FC-PROV-007 | Unit | model-provider/Impl | Planned |
-| FR-PROVIDER-006 | model-provider | §6 | FC-PROV-001/006 | Contract | model-provider/Impl | Planned |
+| FR-PROVIDER-006 | model-provider | §6 | FC-PROV-001/006 | Contract | model-provider/Impl | Partial（中立接口 Done） |
 | FR-TOOL-001 | tool-runtime | §6 | FC-TOOL-001 | Unit/Contract | tool-runtime/Design | Planned |
 | FR-TOOL-002 | tool-runtime | §8/§9 | FC-TOOL-002 | 管线 Integration/Security | tool-runtime/Impl | Planned |
 | FR-TOOL-003 | tool-runtime | §9 | FC-TOOL-003 | Failure | tool-runtime/Impl | Planned |
@@ -39,11 +39,11 @@
 | FR-SANDBOX-001 | sandbox | §6 | FC-SBX-001 | Docker Integration | sandbox/Impl | Planned |
 | FR-SANDBOX-002 | sandbox | §6 | FC-SBX-002/004 | Security | sandbox/Impl | Planned |
 | FR-SANDBOX-003 | sandbox, permission-engine | §9 | FC-SBX-003 | Failure | sandbox/Impl | Planned |
-| FR-EVENT-001 | event-system | §6 | FC-EVT-001 | Contract | event-system/Design | Planned |
+| FR-EVENT-001 | event-system | §6 | FC-EVT-001 | Contract | event-system/Design | Done |
 | FR-EVENT-002 | event-system | §9 | FC-EVT-002 | Race | event-system/Impl | Planned |
 | FR-EVENT-003 | event-system | §7 | FC-EVT-003 | Unit | event-system/Impl | Planned |
-| FR-SESSION-001 | session-store | §6 | FC-SESS-001 | Unit/Race | session-store/Impl | Planned |
-| FR-SESSION-002 | session-store | §6 | FC-SESS-002/003 | Unit | session-store/Impl | Planned |
+| FR-SESSION-001 | session-store | §6 | FC-SESS-001 | Unit/Race | session-store/Impl | Done |
+| FR-SESSION-002 | session-store | §6 | FC-SESS-002/003 | Unit | session-store/Impl | Partial（FC-SESS-002 Done） |
 | FR-SESSION-003 | session-store, runtime-core | §9 | FC-SESS-003, FC-RT-006 | Recovery | session-store/Test | Planned |
 | FR-SESSION-004 | session-store | §9 | FC-SESS-004 | Integration | session-store/Impl | Planned |
 | FR-CONTEXT-001 | context-manager | §6 | FC-CTX-001 | Unit | context-manager/Impl | Planned |
@@ -107,7 +107,7 @@
 | NFR-PERF-002 | context-manager | §12 | FC-CTX-007 | Benchmark | context-manager/Test | Planned |
 | NFR-OBS-001 | telemetry | §15 | FC-TEL-002 | Unit | telemetry/Impl | Planned |
 | NFR-TEST-001 | 全体 | §16 | 各模块测试任务 | Race | MASTER/质量门 | Planned |
-| NFR-MAINT-001 | 全体 | DEPENDENCY_GRAPH | FC-RT-000 等 | go vet/依赖检查 | MASTER/质量门 | Planned |
+| NFR-MAINT-001 | 全体 | DEPENDENCY_GRAPH | FC-RT-000 等 | go vet/依赖检查 | MASTER/质量门 | Partial（Go 基线 Done） |
 | NFR-PORT-001 | sandbox | §14 | FC-SBX-003 | Integration | sandbox/Impl | Planned |
 | NFR-COMPAT-001 | session-store, event-system | §11 | FC-SESS-005 | Migration | session-store/Test | Planned |
 | NFR-LIMIT-001 | tool-runtime, context-manager, mcp-client | §9 | FC-TOOL-003, FC-CTX-003, FC-MCP-004 | Unit | MASTER/安全 | Planned |

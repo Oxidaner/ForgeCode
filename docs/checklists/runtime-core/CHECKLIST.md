@@ -3,7 +3,7 @@
 模块：`runtime-core`。相关需求 FR-RUNTIME-001..006。
 
 ## Design Ready
-- [ ] Agent State 枚举与合法转移表已定义（与 GLOSSARY 一致，FC-RT-001）
+- [x] Agent State 枚举与合法转移表已定义（与 GLOSSARY 一致，FC-RT-001；Evidence: `go test ./internal/runtime-core`）
 - [ ] Coordinator 仅依赖接口，无具体 Provider/Tool 类型（ADR-0003）
 - [ ] 错误模型映射到 GLOSSARY 分类
 - [ ] 恢复语义（事件重放、不重放副作用）已定义
@@ -12,21 +12,21 @@
 
 ## Implementation Ready
 - [ ] 任务已拆分（状态机/Coordinator/Loop/预算/循环/恢复）
-- [ ] Go 版本基线已确定（FC-RT-000）
+- [x] Go 版本基线已确定（FC-RT-000；Evidence: `go.mod` Go 1.22, Spike 环境 Go 1.26.1, `go test ./internal/runtime-core`）
 - [ ] 预算/上限默认值已定义
 - [ ] Mock Provider 与 Fake Store 边界已定义
 
 ## Implementation Complete
-- [ ] 状态机非法转移被拒并记录（FR-RUNTIME-001）
+- [x] 状态机非法转移被拒并记录（FR-RUNTIME-001；Evidence: `internal/runtime-core/state_test.go`）
 - [ ] 五类上限均可触发安全终止（FR-RUNTIME-002）
 - [ ] 取消传播到正在执行的工具（FR-RUNTIME-003）
 - [ ] 非法 Tool Call 作为 Observation 反馈不直接执行（FR-RUNTIME-004）
 - [ ] 重复工具调用/相同错误循环被检测（RISK-003）
-- [ ] AgentStateChanged 等事件完整记录
+- [x] AgentStateChanged 等事件完整记录（FC-RT-001；Evidence: `AgentStateChangedPayload` 测试）
 - [ ] 完整提示/密钥不入普通日志
 
 ## Test Complete
-- [ ] 状态转移 Golden Test
+- [x] 状态转移 Golden Test（Evidence: `go test ./internal/runtime-core`）
 - [ ] 预算上限 Unit Test
 - [ ] 循环检测 Failure Injection
 - [ ] 取消传播 Integration
@@ -34,8 +34,8 @@
 - [ ] `go test -race` 通过
 
 ## Documentation Complete
-- [ ] SPEC 状态机与实现一致
-- [ ] TASKS 状态更新
+- [x] SPEC 状态机与实现一致
+- [x] TASKS 状态更新
 - [ ] ADR-0001/0002 与实现一致
 - [ ] 配置示例更新
 

@@ -4,8 +4,8 @@
 
 | ID | 问题 | 当前假设 | 影响模块 | 状态 | 决策方式 |
 | --- | --- | --- | --- | --- | --- |
-| Q1 | 目标 Go 版本 | 假设 Go 1.22+（泛型、`log/slog`、`errors.Join`） | 全体 | Open | 首个 Spike（FC-RT-000）确认 |
-| Q2 | SQLite 驱动选型 | 候选 `modernc.org/sqlite`（纯 Go，免 CGO）；需确认 FTS5 支持 | session-store, memory-system | Open | Spike 验证 FTS5 |
+| Q1 | 目标 Go 版本 | `go.mod` 采用 Go 1.22 兼容基线；本机 Spike 环境 Go 1.26.1，已验证泛型、`log/slog`、`errors.Join` | 全体 | Resolved | FC-RT-000：`go test ./internal/runtime-core` |
+| Q2 | SQLite 驱动选型 | 选用 `modernc.org/sqlite v1.34.5`（纯 Go，免 CGO），已验证 WAL 与 FTS5；最新版会牵引 Go 1.25 依赖，M1 固定旧版保持 Go 1.22 基线 | session-store, memory-system | Resolved | FC-SESS-000：`go test ./internal/session-store` |
 | Q3 | Git 操作方式 | 候选 `git` CLI 包装（Worktree 兼容性好）vs `go-git`（Worktree 支持有限） | git-worktree | Open | V0.3 前 Spike |
 | Q4 | Token 估算精度 | MVP 用启发式（字符/词近似 + 模型系数），非精确 tokenizer | context-manager | Open | 误差超 15% 时引入 tokenizer |
 | Q5 | CLI 框架 | 候选 cobra；是否需要 TUI 待定 | cli | Open | MVP 评审 |

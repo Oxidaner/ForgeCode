@@ -12,7 +12,7 @@
 
 ## Implementation Ready
 - [ ] 任务已拆分（存储/检索/元数据/审批/敏感）
-- [ ] FTS5 可用性已确认（FC-SESS-000）
+- [x] FTS5 可用性已确认（FC-SESS-000；Evidence: `go test ./internal/session-store`）
 - [ ] 默认置信度/TTL/审批策略已定义
 - [ ] Migration 策略已定义
 

@@ -3,17 +3,20 @@
 模块：`event-system`。Task 前缀 `FC-EVT`。相关需求 FR-EVENT-001..003。ADR-0011。
 
 ## FC-EVT-001 — Event Envelope 与 EventType 定义
-| Type | Architecture | Priority | P0 | Milestone | M1 | Status | Ready | Size | M |
+| Type | Architecture | Priority | P0 | Milestone | M1 | Status | Done | Size | M |
 | Dependencies | - | Related Requirements | FR-EVENT-001, FR-EVENT-003 | Spec | §6 |
 
 **Description**：实现 EVENT_MODEL.md 的 Event 结构、EventType 权威枚举、EventClass 分类。
 **Implementation Notes**：Sequence 字段存在但不在此分配。SchemaVersion 支持演进。
-**Files**：`internal/event-system/event.go`, `types.go`。
+**Files**：`internal/event-system/types.go`。
 **Tests Required**：Contract Test（字段与 EVENT_MODEL 一致）。
 **Acceptance Criteria**：
-- [ ] 字段与文档完全一致
-- [ ] 全部 EventType 与分类覆盖
+- [x] 字段与文档完全一致
+- [x] 全部 EventType 与分类覆盖
 **Definition of Done**：契约测试通过。
+**Evidence**：
+- 2026-06-22：`go test ./internal/event-system` 通过。
+- 2026-06-22：`internal/event-system/event_test.go` 锁定 Event Envelope 字段、EventType 顺序与 EventClass bitmask 分类。
 
 ## FC-EVT-002 — 进程内 Event Bus
 | Type | Implementation | Priority | P0 | Milestone | M1 | Status | Backlog | Size | L |
